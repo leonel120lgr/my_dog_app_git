@@ -31,7 +31,21 @@ dependencies:
 
   #google fonts
 
-  google_fonts: ^6.2.1
+  google_fonts:
+    ^6.2.1
+
+    #Animacion cargando
+  flutter_spinkit:
+    ^5.2.1
+
+    #topSnackBar
+  top_snackbar_flutter: ^3.3.0
+
+  #refesh
+  pull_to_refresh: ^2.0.0
+
+  #icons
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_test:
@@ -40,3 +54,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/

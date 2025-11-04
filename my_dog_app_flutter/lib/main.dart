@@ -1,13 +1,21 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:my_dog_app_flutter/colors/theme_app.dart';
 import 'package:my_dog_app_flutter/colors/theme_notifier.dart';
 import 'package:my_dog_app_flutter/const/strings.dart';
+import 'package:my_dog_app_flutter/pages/home/home_screen.dart';
 import 'package:my_dog_app_flutter/pages/no_internet_screen.dart';
+import 'package:my_dog_app_flutter/providers/dogs_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  //Evita que usuario ponga el dispositvo en horizontal
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(mianAPP());
 }
 
@@ -58,15 +66,15 @@ class _MainAppState extends State<MainApp> {
       themeMode: themeNotifier.useSystemTheme
           ? ThemeMode.system
           : (themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light),
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('es', 'ES')],
+
       debugShowCheckedModeBanner: false,
       title: titleApp,
-      home: Scaffold(body: NoInternetScreen()),
+      home: _isConnected
+          ? ChangeNotifierProvider(
+              create: (context) => DogsProvider(context: context),
+              child: HomeScreen(),
+            )
+          : NoInternetScreen(),
     );
   }
 }
