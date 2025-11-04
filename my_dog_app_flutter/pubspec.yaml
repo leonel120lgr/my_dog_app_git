@@ -1,14 +1,37 @@
 name: my_dog_app_flutter
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
   sdk: ^3.9.2
 
 dependencies:
-  flutter:
+  flutter_localizations:
     sdk: flutter
+
+  #switch
+  animated_toggle_switch: ^0.8.5
+
+  #internet
+
+  connectivity_plus: ^5.0.2
+
+  #Chached image
+  cached_network_image: ^3.3.1
+
+  #custom cards
+  flutter_custom_cards: ^0.2.1
+
+  #provider
+  provider: ^6.1.5
+
+  #http
+  http: ^1.2.2
+
+  #google fonts
+
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
