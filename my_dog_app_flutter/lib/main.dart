@@ -56,8 +56,11 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
+    //Provider para cambiar de tema
     final themeNotifier = Provider.of<ThemeNotifier>(context);
+
     return MaterialApp(
+      //Tema de la aplicación
       theme: ThemeAplication(MediaQuery.of(context).size, context).lightTheme,
       darkTheme: ThemeAplication(
         MediaQuery.of(context).size,
@@ -75,6 +78,7 @@ class _MainAppState extends State<MainApp> {
               child: HomeScreen(),
             )
           : NoInternetScreen(),
+      //  routes: PagesRoutes.route,
     );
   }
 }

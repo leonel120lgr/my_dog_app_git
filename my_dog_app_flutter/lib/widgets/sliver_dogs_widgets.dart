@@ -39,6 +39,7 @@ class SliverDogsLimit extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     onTap: () {
+                      //Si la lista de razas esta vacia no lo dejamos avanzar
                       if (infoDog.breeds.isEmpty) {
                         showTopSnackBarReusable(
                           colorInfo: colorsWhite,
