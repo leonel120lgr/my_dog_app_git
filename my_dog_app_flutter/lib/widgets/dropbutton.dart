@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_dog_app_flutter/colors/colors.dart';
@@ -22,10 +21,9 @@ class LimitSelectorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final themeNotifier = Provider.of<ThemeNotifier>(context);
-    final Color borderColor = theme.colorScheme.primary.withOpacity(0.25);
 
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: EdgeInsetsGeometry.only(top: size.shortestSide / 32),
       child: SizedBox(
@@ -35,7 +33,6 @@ class LimitSelectorCard extends StatelessWidget {
           color: themeNotifier.isDarkMode ? kPrimaryColor : kSecondaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
-            side: BorderSide(color: borderColor, width: 1),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
@@ -51,7 +48,7 @@ class LimitSelectorCard extends StatelessWidget {
                     child: Icon(
                       FontAwesomeIcons.hashtag,
                       color: !themeNotifier.isDarkMode
-                          ? Colors.white
+                          ? colorsWhite
                           : Colors.black,
                     ),
                   ),
@@ -64,18 +61,16 @@ class LimitSelectorCard extends StatelessWidget {
                       Text(
                         textAlign: TextAlign.center,
                         "Cambiar numeros de perros mostrados",
-                        style: TextStyle(
-                          color: !themeNotifier.isDarkMode
-                              ? Colors.white
-                              : null,
-                        ),
+                        style: textTheme.bodyMedium,
                       ),
                       const SizedBox(height: 6),
                       Container(
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
+                          color: themeNotifier.isDarkMode
+                              ? Colors.black
+                              : colorsWhite,
                           borderRadius: BorderRadius.circular(24),
-                          border: Border.all(color: borderColor),
+                          //      border: Border.all(color: borderColor),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: GestureDetector(
@@ -93,7 +88,7 @@ class LimitSelectorCard extends StatelessWidget {
                                     FontAwesomeIcons.listOl,
 
                                     color: themeNotifier.isDarkMode
-                                        ? Colors.white
+                                        ? colorsWhite
                                         : null,
                                   ),
                                   const SizedBox(width: 8),
@@ -101,15 +96,15 @@ class LimitSelectorCard extends StatelessWidget {
                                     '20',
                                     style: TextStyle(
                                       color: themeNotifier.isDarkMode
-                                          ? Colors.white
-                                          : null,
+                                          ? colorsWhite
+                                          : Colors.black,
                                     ),
                                   ),
                                 ],
                               ),
                               icon: const Icon(FontAwesomeIcons.chevronDown),
                               borderRadius: BorderRadius.circular(12),
-                              style: theme.textTheme.bodyMedium,
+                              style: textTheme.bodyMedium,
                               items: limitOptions
                                   .map(
                                     (v) => DropdownMenuItem<int>(
@@ -118,20 +113,23 @@ class LimitSelectorCard extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
+                                          Spacer(flex: 1),
                                           Icon(
                                             FontAwesomeIcons.listOl,
 
                                             color: themeNotifier.isDarkMode
-                                                ? Colors.white
+                                                ? colorsWhite
                                                 : null,
                                           ),
                                           const SizedBox(width: 8),
-                                          Text(
-                                            v.toString(),
-                                            style: TextStyle(
-                                              color: themeNotifier.isDarkMode
-                                                  ? Colors.white
-                                                  : null,
+                                          Expanded(
+                                            child: Text(
+                                              v.toString(),
+                                              style: TextStyle(
+                                                color: themeNotifier.isDarkMode
+                                                    ? colorsWhite
+                                                    : Colors.black,
+                                              ),
                                             ),
                                           ),
                                         ],

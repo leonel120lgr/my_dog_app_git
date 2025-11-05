@@ -78,6 +78,7 @@ class PositionedBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Positioned(
       left: 0,
       right: 0,
@@ -96,16 +97,15 @@ class PositionedBottom extends StatelessWidget {
             Expanded(
               child: Text(
                 maxLines: 1,
-                !visibleIcon //Como estamos en los detalles de pagina mostramos este no
-                    ? "Name: ${infoDog!.breeds.first.name}"
+                !visibleIcon && infoDog != null
+                    ?
+                      //Como estamos en los detalles de pagina mostramos este no
+                      "Name: ${infoDog!.breeds.first.name}"
                     : infoDog != null
                     ? "ID: ${infoDog?.id}" //Abra ocaciones en las que el nombre no este disponible entonces motramos el id en el home
                     : "Breed: ${modelBreedsDogs?.name}",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: themeNotifier.isDarkMode ? Colors.black : colorsWhite,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: textTheme.bodyMedium,
               ),
             ),
             Visibility(

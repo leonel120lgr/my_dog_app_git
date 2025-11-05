@@ -109,9 +109,7 @@ class SliverDogBreeds extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => ChangeNotifierProvider(
                               create: (context) => DogsProvider(),
-                              child: DetalisPageBreedsPage(
-                                modelBreedsDogs: infoDog,
-                              ),
+                              child: DetailsPageBreed(breed: infoDog),
                             ),
                           ),
                         );

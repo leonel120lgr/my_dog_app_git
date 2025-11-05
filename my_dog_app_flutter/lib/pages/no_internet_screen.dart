@@ -17,10 +17,7 @@ class NoInternetScreen extends StatelessWidget {
             SizedBox(height: 20),
             Text(
               "No tienes conexión a internet",
-              style: TextStyle(
-                fontFamily: 'OpenSans',
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(

@@ -17,3 +17,23 @@ final List<IconData> iconListbreedInfo = <IconData>[
   Icons.favorite,
   Icons.face_6,
 ];
+
+//Details breeds
+
+const List<String> breedInfoPageMainList = [
+  "Name",
+  "Bred For",
+  "Breed Group",
+  'Life Span',
+  "Temperament",
+  "Origin",
+];
+
+const List<IconData> iconListbreedPagemainInfo = [
+  Icons.pets,
+  Icons.handyman,
+  Icons.category,
+  Icons.favorite,
+  Icons.emoji_people,
+  Icons.public,
+];

@@ -3,7 +3,9 @@ import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:my_dog_app_flutter/colors/colors.dart';
 import 'package:my_dog_app_flutter/colors/theme_notifier.dart';
 import 'package:my_dog_app_flutter/const/const_lists.dart';
+import 'package:my_dog_app_flutter/const/strings.dart';
 import 'package:my_dog_app_flutter/models/model_info_dog.dart';
+import 'package:my_dog_app_flutter/utils/breed_text_helpers.dart';
 import 'package:my_dog_app_flutter/widgets/cached_image_widget.dart';
 import 'package:my_dog_app_flutter/widgets/drawer_widget.dart';
 import 'package:my_dog_app_flutter/widgets/info_reusable.dart';
@@ -16,8 +18,10 @@ class DetailsPageDog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     final themeNotifier = Provider.of<ThemeNotifier>(context);
+
+    final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       drawer: DrawerWidget(),
       appBar: AppBar(title: Text(modelInfoDog.id)),
@@ -67,12 +71,6 @@ class DetailsPageDog extends StatelessWidget {
                           ? modelInfoDog.breeds.first
                           : null;
 
-                      // Función para texto seguro en caso de no exista el dato
-                      String safe(String? valueSafe) {
-                        final safeData = valueSafe?.trim() ?? "";
-                        return safeData.isEmpty ? "No disponible" : safeData;
-                      }
-
                       // Mapeo por índice -- campo del breed
                       String value;
                       switch (index) {
@@ -116,10 +114,11 @@ class DetailsPageDog extends StatelessWidget {
                         title: Text(
                           "${breedInfoList[index]} : $value",
                           style: TextStyle(
+                            fontFamily: tipeOpenSans,
+                            fontWeight: FontWeight.w600,
                             color: themeNotifier.isDarkMode
                                 ? colorsWhite
                                 : Colors.black,
-                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       );

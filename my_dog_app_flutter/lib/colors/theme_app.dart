@@ -20,7 +20,7 @@ class ThemeAplication {
 
   ThemeData get lightTheme {
     final Color invertedPrimary = kPrimaryColor;
-    final Color invertedSecondary = kSecondaryColor;
+
     final Color alternatingText = textColor; // in light -> kSecondaryColor
 
     return ThemeData.light().copyWith(
@@ -57,7 +57,7 @@ class ThemeAplication {
             fontWeight: FontWeight.bold,
             color: alternatingText,
           ),
-          labelMedium: GoogleFonts.poppins(
+          labelMedium: GoogleFonts.openSans(
             color: alternatingText,
             fontSize: calcularTamanoDiagonal(
               size.width * 0.012,
@@ -66,7 +66,7 @@ class ThemeAplication {
             fontWeight: FontWeight.w500,
           ),
           // Accent choice: keep labelSmall using primary for emphasis
-          labelSmall: GoogleFonts.poppins(
+          labelSmall: GoogleFonts.openSans(
             color: invertedPrimary,
             fontSize: calcularTamanoDiagonal(
               size.width * 0.025,
@@ -82,7 +82,8 @@ class ThemeAplication {
           ),
           bodyMedium: TextStyle(
             fontFamily: tipeOpenSans,
-            color: alternatingText,
+            color: colorsWhite,
+            fontWeight: FontWeight.w600,
             fontSize: size.shortestSide / 20,
           ),
           titleMedium: TextStyle(
@@ -114,12 +115,16 @@ class ThemeAplication {
         ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintStyle: GoogleFonts.poppins(
+        hintStyle: GoogleFonts.openSans(
           fontSize: size.shortestSide / 20,
           decoration: TextDecoration.none,
           fontWeight: FontWeight.normal,
           color: alternatingText.withOpacity(0.7),
         ),
+      ),
+
+      scrollbarTheme: ScrollbarThemeData(
+        thumbColor: WidgetStateProperty.all(kSecondaryColor),
       ),
     );
   }
@@ -167,16 +172,16 @@ class ThemeAplication {
             fontWeight: FontWeight.bold,
             color: alternatingText,
           ),
-          labelMedium: GoogleFonts.poppins(
-            color: alternatingText,
+          labelMedium: GoogleFonts.openSans(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
             fontSize: calcularTamanoDiagonal(
               size.width * 0.012,
               size.height * 0.014,
             ),
-            fontWeight: FontWeight.w500,
           ),
           // Accent choice: keep labelSmall using invertedPrimary for emphasis
-          labelSmall: GoogleFonts.poppins(
+          labelSmall: GoogleFonts.openSans(
             color: invertedPrimary,
             fontSize: calcularTamanoDiagonal(
               size.width * 0.025,
@@ -192,7 +197,9 @@ class ThemeAplication {
           ),
           bodyMedium: TextStyle(
             fontFamily: tipeOpenSans,
-            color: alternatingText,
+
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
             fontSize: size.shortestSide / 20,
           ),
           titleMedium: TextStyle(
@@ -225,12 +232,16 @@ class ThemeAplication {
         ),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintStyle: GoogleFonts.poppins(
+        hintStyle: GoogleFonts.openSans(
           fontSize: size.shortestSide / 20,
           decoration: TextDecoration.none,
           fontWeight: FontWeight.normal,
           color: alternatingText.withOpacity(0.7),
         ),
+      ),
+
+      scrollbarTheme: ScrollbarThemeData(
+        thumbColor: WidgetStateProperty.all(kPrimaryColor),
       ),
     );
   }
