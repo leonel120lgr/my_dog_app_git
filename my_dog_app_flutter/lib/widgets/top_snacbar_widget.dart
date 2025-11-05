@@ -7,7 +7,7 @@ void showTopSnackBarReusable({
   required String message,
   required Color backgroundColor,
   required IconData icon,
-  TextStyle textStyle = const TextStyle(color: Colors.black),
+  required Color colorInfo,
 }) {
   // Asegura que existe un Overlay en el árbol
   final overlayState = Overlay.of(context);
@@ -15,9 +15,10 @@ void showTopSnackBarReusable({
     displayDuration: Duration(seconds: 2),
     overlayState,
     CustomSnackBar.success(
+      maxLines: 10,
       backgroundColor: backgroundColor,
-      icon: Icon(icon, color: Colors.white, size: 20),
-      textStyle: textStyle,
+      icon: Icon(icon, color: colorInfo, size: 20),
+      textStyle: TextStyle(color: colorInfo),
       message: message,
     ),
   );

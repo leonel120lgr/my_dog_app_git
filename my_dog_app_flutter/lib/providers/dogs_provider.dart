@@ -1,74 +1,69 @@
+// dogs_provider.dart
+
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-// ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_dog_app_flutter/colors/colors.dart';
+import 'package:my_dog_app_flutter/const/strings.dart';
 import 'package:my_dog_app_flutter/const/url_base_api_key.dart';
 import 'package:my_dog_app_flutter/models/model_info_dog.dart';
-import 'package:my_dog_app_flutter/pages/home/home_screen.dart';
 import 'package:my_dog_app_flutter/widgets/top_snacbar_widget.dart';
 
 class DogsProvider extends ChangeNotifier {
-  DogsProvider({
-    int limitDog = 20,
-    bool navigate = false,
-    required BuildContext context,
-  }) {
-    getInfoDog(limitDog: limitDog, navigate: navigate, context: context);
+  DogsProvider({int limitDog = 20}) {
+    getInfoDog(limitDog: limitDog);
+  }
+
+  bool _disposed = false;
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  void safeNotify() {
+    if (!_disposed) {
+      notifyListeners();
+    }
   }
 
   bool isLoadingGetInfoDog = false;
 
   List<ModelInfoDog> infoDogList = [];
-  Future<void> getInfoDog({
-    required int limitDog,
-    required bool navigate,
-    required BuildContext context,
-  }) async {
+  Future<void> getInfoDog({required int limitDog}) async {
     try {
       isLoadingGetInfoDog = true;
-      notifyListeners();
+      safeNotify();
+
       final response = await http.get(
         Uri.parse("$baseURL/v1/images/search?limit=$limitDog"),
         headers: headersGlobal,
       );
 
+      if (_disposed) return; // si ya se desmontó, corta aquí
+
       if (response.statusCode >= 200 && response.statusCode <= 299) {
-        log(response.body);
-
         final List<dynamic> jsonResponse = jsonDecode(response.body);
-
         infoDogList = jsonResponse
             .map<ModelInfoDog>((dynamic item) => ModelInfoDog.fromMap(item))
             .toList();
-
-        notifyListeners();
-
-        if (navigate) {
-          //Si venimos del splash screen navegamos al home page
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
-        }
+        safeNotify();
       } else {
         log(response.body);
-
         infoDogList = [];
+        safeNotify();
       }
     } catch (e) {
-      // TODO
-
       infoDogList = [];
       log(e.toString());
     } finally {
+      if (_disposed) return;
       isLoadingGetInfoDog = false;
-      notifyListeners();
+      safeNotify();
     }
   }
 
@@ -78,28 +73,28 @@ class DogsProvider extends ChangeNotifier {
   Future<void> getInfoDogBy({required String idImage}) async {
     try {
       isLoadingGetInfoDogModel = true;
-      notifyListeners();
+      safeNotify();
+
       final response = await http.get(Uri.parse("$baseURL/v1/images/$idImage"));
 
+      if (_disposed) return;
+
       if (response.statusCode >= 200 && response.statusCode <= 299) {
-        log(response.body);
         final Map<String, dynamic> jsonResponse =
             jsonDecode(response.body) as Map<String, dynamic>;
-
         modelInfoDog = ModelInfoDog.fromMap(jsonResponse);
-
-        notifyListeners();
+        safeNotify();
       } else {
         log(response.body);
         modelInfoDog = null;
+        safeNotify();
       }
     } catch (e) {
-      // TODO
-
       modelInfoDog = null;
     } finally {
+      if (_disposed) return;
       isLoadingGetInfoDogModel = false;
-      notifyListeners();
+      safeNotify();
     }
   }
 
@@ -111,7 +106,8 @@ class DogsProvider extends ChangeNotifier {
   }) async {
     try {
       isLoadingPostInfoDog = true;
-      notifyListeners();
+      safeNotify();
+
       final request = http.MultipartRequest(
         'POST',
         Uri.parse('$baseURL/images/upload'),
@@ -121,27 +117,76 @@ class DogsProvider extends ChangeNotifier {
 
       http.StreamedResponse response = await request.send();
       final responseBODY = await response.stream.bytesToString();
+
+      if (_disposed) return;
+
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         log(responseBODY);
 
-        showTopSnackBarReusable(
-          icon: FontAwesomeIcons.circleCheck,
-          // ignore: use_build_context_synchronously
-          context: context,
-          message: "Se subió foto correctamente",
-          backgroundColor: colorSucces,
-        );
-        notifyListeners();
+        // Evitar usar context si la vista fue desmontada
+        if (context.mounted) {
+          showTopSnackBarReusable(
+            colorInfo: colorsWhite,
+            icon: FontAwesomeIcons.circleCheck,
+            context: context,
+            message: "Se subió foto correctamente",
+            backgroundColor: colorSucces,
+          );
+        }
+        safeNotify();
       } else {
         modelInfoDog = null;
+        safeNotify();
       }
     } catch (e) {
-      // TODO
-
       modelInfoDog = null;
     } finally {
+      if (_disposed) return;
       isLoadingPostInfoDog = false;
-      notifyListeners();
+      safeNotify();
+    }
+  }
+
+  bool isLoadingPostFavorite = false;
+  Future<void> postFavoriteDog({
+    required String idImage,
+    required BuildContext context,
+    required String nameDog,
+  }) async {
+    try {
+      isLoadingPostFavorite = true;
+      safeNotify();
+
+      final response = await http.post(
+        Uri.parse("$baseURL/v1/favourites"),
+        headers: headersGlobal,
+        body: {"image_id": idImage, "user_id": "UsuarioInventado"},
+      );
+
+      if (_disposed) return;
+
+      if (response.statusCode >= 200 && response.statusCode <= 299) {
+        if (context.mounted) {
+          showTopSnackBarReusable(
+            context: context,
+            message: "$nameDog $addFavorite",
+            backgroundColor: colorSucces,
+            icon: FontAwesomeIcons.check,
+            colorInfo: colorsWhite,
+          );
+        }
+        safeNotify();
+      } else {
+        log(response.body);
+        log(response.statusCode.toString());
+        safeNotify();
+      }
+    } catch (e) {
+      // log(e.toString());
+    } finally {
+      if (_disposed) return;
+      isLoadingPostFavorite = false;
+      safeNotify();
     }
   }
 }

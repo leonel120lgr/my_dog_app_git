@@ -47,6 +47,9 @@ dependencies:
   #icons
   font_awesome_flutter: ^10.8.0
 
+  #accordion
+  accordion: ^2.6.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

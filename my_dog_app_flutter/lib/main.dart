@@ -71,7 +71,7 @@ class _MainAppState extends State<MainApp> {
       title: titleApp,
       home: _isConnected
           ? ChangeNotifierProvider(
-              create: (context) => DogsProvider(context: context),
+              create: (context) => DogsProvider(),
               child: HomeScreen(),
             )
           : NoInternetScreen(),
