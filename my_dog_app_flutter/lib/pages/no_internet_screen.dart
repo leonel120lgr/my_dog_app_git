@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_dog_app_flutter/colors/colors.dart';
 import 'package:my_dog_app_flutter/colors/theme_notifier.dart';
 import 'package:my_dog_app_flutter/main.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ class NoInternetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
     return Scaffold(
       body: Center(
         child: Column(
@@ -38,7 +40,12 @@ class NoInternetScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: Text("Reintentar"),
+              child: Text(
+                "Reintentar",
+                style: TextStyle(
+                  color: themeNotifier.isDarkMode ? colorsWhite : Colors.black,
+                ),
+              ),
             ),
           ],
         ),
