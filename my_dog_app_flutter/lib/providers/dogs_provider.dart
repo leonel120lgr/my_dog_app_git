@@ -2,18 +2,15 @@
 
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_dog_app_flutter/colors/colors.dart';
 import 'package:my_dog_app_flutter/const/url_base_api_key.dart';
 import 'package:my_dog_app_flutter/models/model_breeds_dogs.dart';
 import 'package:my_dog_app_flutter/models/model_info_dog.dart';
-import 'package:my_dog_app_flutter/widgets/top_snacbar_widget.dart';
 
 class DogsProvider extends ChangeNotifier {
+  //El limit por default siempre es 20, pero cuando el usuario lo mande a llamar puede actulizarlo
   DogsProvider({int limitDog = 20}) {
     // Constructor para llamar automáticamente los métodos
     getInfoDog(limitDog: limitDog);
@@ -26,6 +23,7 @@ class DogsProvider extends ChangeNotifier {
     _disposed = true;
     super.dispose();
   }
+  //Evita que se haga un dispose inecesario que genere conflicto entre el get de los datos
 
   void safeNotify() {
     if (!_disposed) {
@@ -103,57 +101,6 @@ class DogsProvider extends ChangeNotifier {
     } finally {
       if (_disposed) return;
       isLoadingGetBreedsDogs = false;
-      safeNotify();
-    }
-  }
-
-  ModelInfoDog? modelInfoDog;
-
-  bool isLoadingPostInfoDog = false;
-
-  Future<void> postInfoDogBy({
-    required File file,
-    required BuildContext context,
-  }) async {
-    try {
-      isLoadingPostInfoDog = true;
-      safeNotify();
-
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse('$baseURL/images/upload'),
-      );
-      request.files.add(await http.MultipartFile.fromPath('file', file.path));
-      request.headers.addAll(headersGlobal);
-
-      http.StreamedResponse response = await request.send();
-      final responseBODY = await response.stream.bytesToString();
-
-      if (_disposed) return;
-
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        log(responseBODY);
-
-        // Evitar usar context si la vista fue desmontada
-        if (context.mounted) {
-          showTopSnackBarReusable(
-            colorInfo: colorsWhite,
-            icon: FontAwesomeIcons.circleCheck,
-            context: context,
-            message: "Se subió foto correctamente",
-            backgroundColor: colorSucces,
-          );
-        }
-        safeNotify();
-      } else {
-        modelInfoDog = null;
-        safeNotify();
-      }
-    } catch (e) {
-      modelInfoDog = null;
-    } finally {
-      if (_disposed) return;
-      isLoadingPostInfoDog = false;
       safeNotify();
     }
   }

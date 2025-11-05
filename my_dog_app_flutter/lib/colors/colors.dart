@@ -8,4 +8,3 @@ const kAmbertColor = Colors.amber;
 //Colores de alertas
 const colorError = Colors.red;
 const colorsWhite = Colors.white;
-const colorSucces = Color(0xFF00E676);

@@ -14,7 +14,7 @@ void showTopSnackBarReusable({
   showTopSnackBar(
     displayDuration: Duration(seconds: 2),
     overlayState,
-    CustomSnackBar.success(
+    CustomSnackBar.error(
       maxLines: 10,
       backgroundColor: backgroundColor,
       icon: Icon(icon, color: colorInfo, size: 20),

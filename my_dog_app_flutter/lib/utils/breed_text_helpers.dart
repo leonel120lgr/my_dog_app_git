@@ -1,18 +1,15 @@
 import 'package:my_dog_app_flutter/models/model_breeds_dogs.dart';
 
-/// Returns a trimmed string, or a fallback if it's null/empty.
+//Evita que existan datos nullos o vacios
 String safe(String? value, {String fallback = "No disponible"}) {
   final s = (value ?? "").trim();
   return s.isEmpty ? fallback : s;
 }
 
-/// Sanitizes a metric/imperial range, preferring metric if valid.
-
-/// Builds the breed info values list using provided breed fields.
-/// Pass English labels via overrides if you want English output.
+//Crea una lista para que modelbreds se comporte de una manera más limpia y ordenada
 List<String> buildBreedValues({
   required ModelBreedsDogs breed,
-  // Localization overrides
+
   String unavailableText = "No disponible",
 }) {
   return [

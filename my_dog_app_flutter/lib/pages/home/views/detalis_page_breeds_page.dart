@@ -7,7 +7,6 @@ import 'package:my_dog_app_flutter/const/strings.dart';
 import 'package:my_dog_app_flutter/models/model_breeds_dogs.dart';
 import 'package:my_dog_app_flutter/utils/breed_text_helpers.dart';
 import 'package:my_dog_app_flutter/widgets/cached_image_widget.dart';
-import 'package:my_dog_app_flutter/widgets/drawer_widget.dart';
 import 'package:my_dog_app_flutter/widgets/info_reusable.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +21,6 @@ class DetailsPageBreed extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      drawer: const DrawerWidget(),
       appBar: AppBar(
         title: Text(breed.name.isNotEmpty ? breed.name : "Detalle de raza"),
       ),

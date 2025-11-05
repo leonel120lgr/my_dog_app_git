@@ -53,3 +53,23 @@ flutter run
 
 - Errores de Gradle/AndroidX: `flutter clean && flutter pub get`.
 - Problemas de CocoaPods (iOS): `cd ios && pod repo update && pod install`.
+  Corrección de ortografía y estilo
+
+# Proceso de desarrollo y decisiones tomadas
+
+Primero consulté la API https://thedogapi.com/ y realicé la creación de mi cuenta con Google. Una vez en la documentación, copié y guardé en mi código la URL global y la API Key proporcionada en variables globales para reutilizarlas. Pensaba utilizar rutas (routes) para la navegación, pero desde mi perspectiva la herencia de argumentos es más eficiente utilizando MaterialPageRoute con push que con pushNamed, ya que los argumentos no cargan de golpe cuando son heredados, lo cual genera un ligero retraso que puede molestar al usuario; por ello descarté esa idea. Suelo utilizar SliverList para renderizar listas, ya que las carga de manera más controlada y estructurada, siempre cuidando el paginado de los datos. Elegí una paleta de colores intercambiable para que el usuario pueda elegir cómo usar el sistema y visualizar los colores.
+
+El proyecto se divide en carpetas ordenadas:
+
+- color (maneja los temas de la aplicación)
+- const (contiene todos los datos estáticos dentro del sistema)
+- models (el modelo de los endpoints consumidos se encuentra en este apartado)
+- pages (están las vistas utilizadas en este proyecto)
+  - views
+- providers (clase principal para manejar el consumo de la aplicación)
+- utils (métodos utilizados para simplificar las páginas y reutilizar código)
+- widgets (todos los widgets utilizados en el sistema, ordenados)
+
+# Video demostrativo de la app
+
+https://drive.google.com/file/d/1Yyj7xsgdFDvCImIOAMHZVGYebVZSu1xz/view?usp=sharing

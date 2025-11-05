@@ -78,7 +78,6 @@ class _MainAppState extends State<MainApp> {
               child: HomeScreen(),
             )
           : NoInternetScreen(),
-      //  routes: PagesRoutes.route,
     );
   }
 }
