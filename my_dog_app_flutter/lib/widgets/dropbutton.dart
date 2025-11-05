@@ -78,67 +78,72 @@ class LimitSelectorCard extends StatelessWidget {
                           border: Border.all(color: borderColor),
                         ),
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton<int>(
-                            isExpanded: true,
-                            value: currentLimit,
-                            hint: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.listOl,
+                        child: GestureDetector(
+                          onTap: () => FocusScope.of(
+                            context,
+                          ).unfocus(), // cerramos el teclado para que no estorbe
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<int>(
+                              isExpanded: true,
+                              value: currentLimit,
+                              hint: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    FontAwesomeIcons.listOl,
 
-                                  color: themeNotifier.isDarkMode
-                                      ? Colors.white
-                                      : null,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  '20',
-                                  style: TextStyle(
                                     color: themeNotifier.isDarkMode
                                         ? Colors.white
                                         : null,
                                   ),
-                                ),
-                              ],
-                            ),
-                            icon: const Icon(FontAwesomeIcons.chevronDown),
-                            borderRadius: BorderRadius.circular(12),
-                            style: theme.textTheme.bodyMedium,
-                            items: limitOptions
-                                .map(
-                                  (v) => DropdownMenuItem<int>(
-                                    value: v,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          FontAwesomeIcons.listOl,
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    '20',
+                                    style: TextStyle(
+                                      color: themeNotifier.isDarkMode
+                                          ? Colors.white
+                                          : null,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              icon: const Icon(FontAwesomeIcons.chevronDown),
+                              borderRadius: BorderRadius.circular(12),
+                              style: theme.textTheme.bodyMedium,
+                              items: limitOptions
+                                  .map(
+                                    (v) => DropdownMenuItem<int>(
+                                      value: v,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            FontAwesomeIcons.listOl,
 
-                                          color: themeNotifier.isDarkMode
-                                              ? Colors.white
-                                              : null,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                          v.toString(),
-                                          style: TextStyle(
                                             color: themeNotifier.isDarkMode
                                                 ? Colors.white
                                                 : null,
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            v.toString(),
+                                            style: TextStyle(
+                                              color: themeNotifier.isDarkMode
+                                                  ? Colors.white
+                                                  : null,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              if (value == null) return;
-                              onChanged(value); // delega al padre
-                            },
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                if (value == null) return;
+                                onChanged(value); // delega al padre
+                              },
+                            ),
                           ),
                         ),
                       ),

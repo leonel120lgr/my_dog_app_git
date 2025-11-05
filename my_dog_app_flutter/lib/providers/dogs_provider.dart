@@ -8,14 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_dog_app_flutter/colors/colors.dart';
-import 'package:my_dog_app_flutter/const/strings.dart';
 import 'package:my_dog_app_flutter/const/url_base_api_key.dart';
+import 'package:my_dog_app_flutter/models/model_breeds_dogs.dart';
 import 'package:my_dog_app_flutter/models/model_info_dog.dart';
 import 'package:my_dog_app_flutter/widgets/top_snacbar_widget.dart';
 
 class DogsProvider extends ChangeNotifier {
   DogsProvider({int limitDog = 20}) {
+    // Constructor para llamar automáticamente los métodos
     getInfoDog(limitDog: limitDog);
+    getBreedDogs();
   }
 
   bool _disposed = false;
@@ -67,36 +69,45 @@ class DogsProvider extends ChangeNotifier {
     }
   }
 
-  bool isLoadingGetInfoDogModel = false;
+  bool isLoadingGetBreedsDogs = false;
 
-  ModelInfoDog? modelInfoDog;
-  Future<void> getInfoDogBy({required String idImage}) async {
+  List<ModelBreedsDogs> breedsDogList = [];
+  Future<void> getBreedDogs() async {
     try {
-      isLoadingGetInfoDogModel = true;
+      isLoadingGetBreedsDogs = true;
       safeNotify();
 
-      final response = await http.get(Uri.parse("$baseURL/v1/images/$idImage"));
+      final response = await http.get(
+        Uri.parse("$baseURL/v1/breeds"),
+        headers: headersGlobal,
+      );
 
-      if (_disposed) return;
+      if (_disposed) return; // si ya se desmontó, corta aquí
 
       if (response.statusCode >= 200 && response.statusCode <= 299) {
-        final Map<String, dynamic> jsonResponse =
-            jsonDecode(response.body) as Map<String, dynamic>;
-        modelInfoDog = ModelInfoDog.fromMap(jsonResponse);
+        final List<dynamic> jsonResponse = jsonDecode(response.body);
+        breedsDogList = jsonResponse
+            .map<ModelBreedsDogs>(
+              (dynamic item) => ModelBreedsDogs.fromMap(item),
+            )
+            .toList();
         safeNotify();
       } else {
         log(response.body);
-        modelInfoDog = null;
+        breedsDogList = [];
         safeNotify();
       }
     } catch (e) {
-      modelInfoDog = null;
+      breedsDogList = [];
+      log(e.toString());
     } finally {
       if (_disposed) return;
-      isLoadingGetInfoDogModel = false;
+      isLoadingGetBreedsDogs = false;
       safeNotify();
     }
   }
+
+  ModelInfoDog? modelInfoDog;
 
   bool isLoadingPostInfoDog = false;
 
@@ -143,49 +154,6 @@ class DogsProvider extends ChangeNotifier {
     } finally {
       if (_disposed) return;
       isLoadingPostInfoDog = false;
-      safeNotify();
-    }
-  }
-
-  bool isLoadingPostFavorite = false;
-  Future<void> postFavoriteDog({
-    required String idImage,
-    required BuildContext context,
-    required String nameDog,
-  }) async {
-    try {
-      isLoadingPostFavorite = true;
-      safeNotify();
-
-      final response = await http.post(
-        Uri.parse("$baseURL/v1/favourites"),
-        headers: headersGlobal,
-        body: {"image_id": idImage, "user_id": "UsuarioInventado"},
-      );
-
-      if (_disposed) return;
-
-      if (response.statusCode >= 200 && response.statusCode <= 299) {
-        if (context.mounted) {
-          showTopSnackBarReusable(
-            context: context,
-            message: "$nameDog $addFavorite",
-            backgroundColor: colorSucces,
-            icon: FontAwesomeIcons.check,
-            colorInfo: colorsWhite,
-          );
-        }
-        safeNotify();
-      } else {
-        log(response.body);
-        log(response.statusCode.toString());
-        safeNotify();
-      }
-    } catch (e) {
-      // log(e.toString());
-    } finally {
-      if (_disposed) return;
-      isLoadingPostFavorite = false;
       safeNotify();
     }
   }

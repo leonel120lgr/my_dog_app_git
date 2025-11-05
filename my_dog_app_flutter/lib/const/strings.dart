@@ -13,7 +13,7 @@ const String assetLoading = "assets/loading.gif";
 const String notInfo = "No hay información para mostrar, elige otro perrito.";
 
 //Buscador
-const String searchDog = "Ingresa el ID de un perrito y búscalo";
+const String searchDog = "Ingresa la raza de un perrito";
 
 //TopBarMesssge
 

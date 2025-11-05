@@ -6,7 +6,7 @@ import 'package:my_dog_app_flutter/const/strings.dart';
 Widget cachedImageNetwork(String imageURL) {
   return CachedNetworkImage(
     imageUrl: imageURL,
-    fit: BoxFit.cover, // Esto hará que la imagen cubra el contenedor
+    fit: BoxFit.fill, // Esto hará que la imagen cubra el contenedor
     placeholder: (context, url) =>
         Center(child: Image.asset(assetLoading, fit: BoxFit.cover)),
     errorWidget: (context, url, error) => Container(color: Colors.white),

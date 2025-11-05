@@ -56,9 +56,6 @@ class ModelInfoDog {
 }
 
 class Breed {
-  final Eight weight;
-  final Eight height;
-  final int id;
   final String name;
   final String bredFor; // opcional en API, ponemos default ""
   final String breedGroup; // opcional en API, default ""
@@ -67,9 +64,6 @@ class Breed {
   final String referenceImageId;
 
   Breed({
-    required this.weight,
-    required this.height,
-    required this.id,
     required this.name,
     required this.bredFor,
     required this.breedGroup,
@@ -84,14 +78,6 @@ class Breed {
   String toJson() => json.encode(toMap());
 
   factory Breed.fromMap(Map<String, dynamic> json) => Breed(
-    // Si weight/height son null, crea Eight vacío para evitar crashes
-    weight: (json["weight"] is Map<String, dynamic>)
-        ? Eight.fromMap(json["weight"] as Map<String, dynamic>)
-        : Eight.empty(),
-    height: (json["height"] is Map<String, dynamic>)
-        ? Eight.fromMap(json["height"] as Map<String, dynamic>)
-        : Eight.empty(),
-    id: ModelInfoDog._toIntSafe(json["id"]),
     name: (json["name"] ?? "").toString(),
     bredFor: (json["bred_for"] ?? "").toString(),
     breedGroup: (json["breed_group"] ?? "").toString(),
@@ -101,9 +87,6 @@ class Breed {
   );
 
   Map<String, dynamic> toMap() => {
-    "weight": weight.toMap(),
-    "height": height.toMap(),
-    "id": id,
     "name": name,
     "bred_for": bredFor,
     "breed_group": breedGroup,

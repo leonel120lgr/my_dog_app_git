@@ -20,7 +20,7 @@ void main() {
 }
 
 Widget mianAPP() => ChangeNotifierProvider(
-  create: (context) => ThemeNotifier(),
+  create: (context) => ThemeNotifier(), // Provider para cambiar de tema
   child: MainApp(),
 );
 
