@@ -53,7 +53,6 @@ flutter run
 
 - Errores de Gradle/AndroidX: `flutter clean && flutter pub get`.
 - Problemas de CocoaPods (iOS): `cd ios && pod repo update && pod install`.
-  Corrección de ortografía y estilo
 
 # Proceso de desarrollo y decisiones tomadas
 
